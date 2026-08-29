@@ -31,9 +31,27 @@ SET @MODEL := 2240;
 -- 90030 Kochen-Materialien
 -- 90031 Angeln-Materialien
 -- 90032 Erste-Hilfe-Materialien
+-- 90063 Einhandwaffen
+-- 90064 Zweihandwaffen
+-- 90065 Fernkampfwaffen
+-- 90066 Nebenhand/Zauberwaffen
+-- 90067 Kopf
+-- 90068 Schultern
+-- 90069 Brust/Roben
+-- 90070 Guertel
+-- 90071 Hosen
+-- 90072 Schuhe
+-- 90073 Armschienen
+-- 90074 Handschuhe
+-- 90075 Umhaenge
+-- 90076 Ringe
+-- 90077 Halsketten
+-- 90078 Schmuckstuecke
+-- 90079 Schilde/Nebenhand
+-- 90080 Sehr gute Starterausruestung ab Stufe 1
 
-DELETE FROM `npc_vendor` WHERE `entry` BETWEEN 90010 AND 90017 OR `entry` BETWEEN 90020 AND 90032;
-DELETE FROM `creature_template` WHERE `entry` BETWEEN 90010 AND 90032;
+DELETE FROM `npc_vendor` WHERE `entry` BETWEEN 90010 AND 90017 OR `entry` BETWEEN 90020 AND 90032 OR `entry` BETWEEN 90063 AND 90080;
+DELETE FROM `creature_template` WHERE `entry` BETWEEN 90010 AND 90032 OR `entry` BETWEEN 90063 AND 90080;
 
 /* Legacy-layout reference, intentionally inactive on the current TBC-DB schema.
 -- Vendor / service NPC templates. npcflag 2 = vendor, 8192 = banker.
@@ -103,6 +121,24 @@ CALL `pt_seed_npc`(90029,'Kuerschnerei-Materialien',2);
 CALL `pt_seed_npc`(90030,'Kochen-Materialien',2);
 CALL `pt_seed_npc`(90031,'Angeln-Materialien',2);
 CALL `pt_seed_npc`(90032,'Erste-Hilfe-Materialien',2);
+CALL `pt_seed_npc`(90063,'Einhandwaffen 1-70',2);
+CALL `pt_seed_npc`(90064,'Zweihandwaffen 1-70',2);
+CALL `pt_seed_npc`(90065,'Fernkampfwaffen 1-70',2);
+CALL `pt_seed_npc`(90066,'Zauberwaffen und Nebenhand',2);
+CALL `pt_seed_npc`(90067,'Kopfruestung 1-70',2);
+CALL `pt_seed_npc`(90068,'Schulterruestung 1-70',2);
+CALL `pt_seed_npc`(90069,'Brustruestung und Roben 1-70',2);
+CALL `pt_seed_npc`(90070,'Guertel 1-70',2);
+CALL `pt_seed_npc`(90071,'Hosen 1-70',2);
+CALL `pt_seed_npc`(90072,'Schuhe 1-70',2);
+CALL `pt_seed_npc`(90073,'Armschienen 1-70',2);
+CALL `pt_seed_npc`(90074,'Handschuhe 1-70',2);
+CALL `pt_seed_npc`(90075,'Umhaenge 1-70',2);
+CALL `pt_seed_npc`(90076,'Ringe 1-70',2);
+CALL `pt_seed_npc`(90077,'Halsketten 1-70',2);
+CALL `pt_seed_npc`(90078,'Schmuckstuecke 1-70',2);
+CALL `pt_seed_npc`(90079,'Schilde und Nebenhand 1-70',2);
+CALL `pt_seed_npc`(90080,'Elite-Starterausruestung',2);
 DROP PROCEDURE `pt_seed_npc`;
 
 -- ------------------------------------------------------------
@@ -160,6 +196,71 @@ INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedC
 SELECT 90015,0,`entry`,0,0,0 FROM `item_template`
 WHERE `class`=4 AND `Quality` IN (2,3) AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType` IN (2,11,12)
 ORDER BY `ItemLevel`, `entry` LIMIT 150;
+
+-- ------------------------------------------------------------
+-- Dedicated equipment vendors. Splitting the inventories prevents
+-- weapons, late-level armor and jewelry from disappearing behind the
+-- TBC vendor-list size limit.
+-- ------------------------------------------------------------
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90063,0,`entry`,0,0,0 FROM `item_template`
+WHERE `class`=2 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70
+  AND `InventoryType` IN (13,21) ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90064,0,`entry`,0,0,0 FROM `item_template`
+WHERE `class`=2 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70
+  AND `InventoryType`=17 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90065,0,`entry`,0,0,0 FROM `item_template`
+WHERE `class`=2 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70
+  AND `InventoryType` IN (15,25,26) ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90066,0,`entry`,0,0,0 FROM `item_template`
+WHERE `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70
+  AND ((`class`=2 AND `InventoryType`=22) OR (`class`=4 AND `InventoryType`=23))
+ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+
+-- Armor slots: cloth, leather, mail and plate; green through epic.
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90067,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=1 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90068,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=3 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90069,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType` IN (5,20) ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90070,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=6 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90071,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=7 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90072,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=8 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90073,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=9 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90074,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=10 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90075,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=16 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+
+-- Jewelry split into rings, necklaces and trinkets.
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90076,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=11 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90077,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=2 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90078,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType`=12 ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90079,0,`entry`,0,0,0 FROM `item_template` WHERE `class`=4 AND `Quality` BETWEEN 2 AND 4 AND `RequiredLevel` BETWEEN 1 AND 70 AND `InventoryType` IN (14,23) ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel` DESC LIMIT 250;
+
+-- Strong unrestricted starter gear that is genuinely usable at level 1.
+-- Existing item requirements are never altered.
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90080,0,`entry`,0,0,0 FROM `item_template`
+WHERE `Quality` BETWEEN 2 AND 4 AND `RequiredLevel`<=1 AND `ItemLevel` BETWEEN 5 AND 30
+  AND ((`class`=4 AND `InventoryType` IN (1,2,3,5,6,7,8,9,10,11,12,14,16,20,23))
+    OR (`class`=2 AND `InventoryType` IN (13,15,17,21,22,25,26)))
+ORDER BY `Quality` DESC,`ItemLevel` DESC,`entry` LIMIT 250;
 
 -- ------------------------------------------------------------
 -- Bags
@@ -346,4 +447,3 @@ INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue
 INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel`) SELECT 90060,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel` FROM `npc_trainer` WHERE `entry`=8306;
 INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel`) SELECT 90061,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel` FROM `npc_trainer` WHERE `entry`=3607;
 INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel`) SELECT 90062,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel` FROM `npc_trainer` WHERE `entry`=2326;
-
