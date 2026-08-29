@@ -4,9 +4,9 @@ Diese Dateien sind **nicht Bestandteil der normalen TBC-Datenbank**. Sie werden 
 
 ## Playertreff
 
-`9002_playertreff.sql` richtet den vorhandenen Playertreff ein und lädt zusätzlich die korrekten NPC-Flags.
-
-Es verwendet bewusst `SOURCE Updates/9002_playertreff.sql;`, damit die bereits geprüfte und vollständige Playertreff-SQL nicht dupliziert und später auseinanderentwickelt wird. Die Datei muss aus dem Repository-Hauptverzeichnis mit dem MySQL-Client ausgeführt werden.
+`9002_playertreff.sql` installiert den aktuellen Playertreff aus dem zentralen
+Paket unter `Custom/SQL/world/install`. Die Datei muss aus dem
+Repository-Hauptverzeichnis mit dem MySQL-Client ausgeführt werden.
 
 ## Buffer
 
@@ -28,7 +28,16 @@ Die Playertreff-Erweiterung enthält:
 - Berufsmeister
 - getrennte Materialhändler für die Berufe
 
-## Installation
+## Empfohlene Installation
+
+Alle TBC-Module gemeinsam, sauber nach Datenbank getrennt:
+
+```text
+mysql -u mangos -p mangos < Custom/SQL/world/install_all.sql
+mysql -u mangos -p characters < Custom/SQL/characters/install_all.sql
+```
+
+## Einzelne Legacy-Optionen
 
 Beispiel aus dem Repository-Hauptverzeichnis:
 

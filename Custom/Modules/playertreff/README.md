@@ -2,7 +2,7 @@
 
 Install the world SQL from the repository root:
 
-    mysql -u mangos -p mangos < Custom/Modules/playertreff/sql/install/world/playertreff.sql
+    mysql -u mangos -p mangos < Custom/SQL/world/install/playertreff.sql
 
 The module creates service NPC templates but does not force a spawn location.
 Place the desired NPCs with `.npc add <entry>`.
@@ -25,4 +25,4 @@ items cannot create broken vendor rows. Each dedicated inventory is capped at
 
 Uninstall with:
 
-    mysql -u mangos -p mangos < Custom/Modules/playertreff/sql/uninstall/world/playertreff.sql
+    mysql -u mangos -p mangos < Custom/SQL/world/uninstall/playertreff.sql

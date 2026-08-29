@@ -1,3 +1,2 @@
-DELETE FROM creature_template WHERE entry IN (190013, 190014, 190015);
-DELETE FROM locales_creature WHERE entry IN (190013, 190014, 190015);
-DELETE FROM creature WHERE id IN (190013, 190014, 190015);
+-- Compatibility wrapper. Run from the TBC-DB repository root.
+SOURCE Custom/SQL/world/uninstall/trainingdummies.sql;
