@@ -49,9 +49,12 @@ SET @MODEL := 2240;
 -- 90078 Schmuckstuecke
 -- 90079 Schilde/Nebenhand
 -- 90080 Sehr gute Starterausruestung ab Stufe 1
+-- 90081 Edelsteine
+-- 90082 Buffrollen
+-- 90083 Bufffood und Getraenke
 
-DELETE FROM `npc_vendor` WHERE `entry` BETWEEN 90010 AND 90017 OR `entry` BETWEEN 90020 AND 90032 OR `entry` BETWEEN 90063 AND 90080;
-DELETE FROM `creature_template` WHERE `entry` BETWEEN 90010 AND 90032 OR `entry` BETWEEN 90063 AND 90080;
+DELETE FROM `npc_vendor` WHERE `entry` BETWEEN 90010 AND 90017 OR `entry` BETWEEN 90020 AND 90032 OR `entry` BETWEEN 90063 AND 90083;
+DELETE FROM `creature_template` WHERE `entry` BETWEEN 90010 AND 90032 OR `entry` BETWEEN 90063 AND 90083;
 
 /* Legacy-layout reference, intentionally inactive on the current TBC-DB schema.
 -- Vendor / service NPC templates. npcflag 2 = vendor, 8192 = banker.
@@ -139,6 +142,9 @@ CALL `pt_seed_npc`(90077,'Halsketten 1-70',2);
 CALL `pt_seed_npc`(90078,'Schmuckstuecke 1-70',2);
 CALL `pt_seed_npc`(90079,'Schilde und Nebenhand 1-70',2);
 CALL `pt_seed_npc`(90080,'Elite-Starterausruestung',2);
+CALL `pt_seed_npc`(90081,'Edelsteinhaendler',2);
+CALL `pt_seed_npc`(90082,'Buffrollenhaendler',2);
+CALL `pt_seed_npc`(90083,'Bufffood und Getraenke',2);
 DROP PROCEDURE `pt_seed_npc`;
 
 -- ------------------------------------------------------------
@@ -261,6 +267,24 @@ WHERE `Quality` BETWEEN 2 AND 4 AND `RequiredLevel`<=1 AND `ItemLevel` BETWEEN 5
   AND ((`class`=4 AND `InventoryType` IN (1,2,3,5,6,7,8,9,10,11,12,14,16,20,23))
     OR (`class`=2 AND `InventoryType` IN (13,15,17,21,22,25,26)))
 ORDER BY `Quality` DESC,`ItemLevel` DESC,`entry` LIMIT 250;
+
+-- Cut and uncut Classic/TBC gems, including socket gems.
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90081,0,`entry`,0,0,0 FROM `item_template`
+WHERE `class`=3 AND `Quality` BETWEEN 1 AND 4 AND `RequiredLevel`<=70
+ORDER BY `Quality`,`ItemLevel`,`entry` LIMIT 250;
+
+-- Stat, armor, resistance and protection scrolls.
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90082,0,`entry`,0,0,0 FROM `item_template`
+WHERE `class`=0 AND `subclass`=4 AND `Quality` BETWEEN 1 AND 3 AND `RequiredLevel`<=70
+ORDER BY `RequiredLevel`,`ItemLevel`,`entry` LIMIT 250;
+
+-- Food and drinks, including TBC well-fed buff food.
+INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`)
+SELECT 90083,0,`entry`,0,0,0 FROM `item_template`
+WHERE `class`=0 AND `subclass`=5 AND `Quality` BETWEEN 1 AND 3 AND `RequiredLevel`<=70
+ORDER BY `RequiredLevel`,`Quality` DESC,`ItemLevel`,`entry` LIMIT 250;
 
 -- ------------------------------------------------------------
 -- Bags

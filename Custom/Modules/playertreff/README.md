@@ -14,6 +14,9 @@ Equipment vendors:
 - 90067-90075: armor from head through boots, wrists, gloves and cloaks
 - 90076-90079: rings, necklaces, trinkets, shields and off-hands
 - 90080: strong existing items that can genuinely be equipped at level 1
+- 90081: cut and uncut gems
+- 90082: buff, armor, resistance and protection scrolls
+- 90083: food, drinks and TBC well-fed buff food
 
 The module does not lower item requirements or create fake item IDs. Vendor
 contents are selected from the installed TBC `item_template` table, so missing
