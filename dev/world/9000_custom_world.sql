@@ -5,7 +5,6 @@
 -- ============================================================================
 -- SOURCE: Custom/SQL/world/install/hardcore.sql
 -- ============================================================================
-
 DELETE FROM gameobject_template WHERE `type`=2 AND `CustomData1`=3643;
 
 SET @Entry := 190011;
@@ -111,7 +110,6 @@ DEALLOCATE PREPARE hardcore_spell_stmt;
 -- ============================================================================
 -- SOURCE: Custom/SQL/world/install/trainingdummies_tbc.sql
 -- ============================================================================
-
 DELETE FROM creature_template WHERE entry IN (190013, 190014, 190015);
 INSERT INTO creature_template (Entry, Name, SubName, IconName, MinLevel, MaxLevel, HeroicEntry, DisplayId1, DisplayIdProbability1, Faction, Scale, Family, CreatureType, InhabitType, RegenerateStats, RacialLeader, NpcFlags, UnitFlags, DynamicFlags, ExtraFlags, CreatureTypeFlags, SpeedWalk, SpeedRun, Detection, CallForHelp, Pursuit, Leash, Timeout, UnitClass, `Rank`, Expansion, HealthMultiplier, PowerMultiplier, DamageMultiplier, DamageVariance, ArmorMultiplier, ExperienceMultiplier, MinLevelHealth, MaxLevelHealth, MinLevelMana, MaxLevelMana, MinMeleeDmg, MaxMeleeDmg, MinRangedDmg, MaxRangedDmg, Armor, MeleeAttackPower, RangedAttackPower, MeleeBaseAttackTime, RangedBaseAttackTime, DamageSchool, MinLootGold, MaxLootGold, LootId, PickpocketLootId, SkinningLootId, KillCredit1, KillCredit2, MechanicImmuneMask, SchoolImmuneMask, ResistanceHoly, ResistanceFire, ResistanceNature, ResistanceFrost, ResistanceShadow, ResistanceArcane, PetSpellDataId, MovementType, TrainerType, TrainerSpell, TrainerClass, TrainerRace, TrainerTemplateId, VendorTemplateId, EquipmentTemplateId, GossipMenuId, AIName, ScriptName) VALUES
 (190013, 'Grandmaster''s Training Dummy', '', '', 73, 73, 0, 16074, 100, 7, 2.2, 0, 9, 3, 0, 0, 0, 32768, 0, 64, 4, 1, 1.14286, 20, 0, 0, 0, 0, 1, 3, 1, 1000, 1, 1, 1, 1, 1, 7888000, 7888000, 0, 0, 0, 0, 0, 0, 7684, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8585235, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', ''),
@@ -153,7 +151,6 @@ INSERT INTO `creature` (`id`, `map`, `spawnMask`, `position_x`, `position_y`, `p
 -- ============================================================================
 -- SOURCE: Custom/SQL/world/install/level58upgrade.sql
 -- ============================================================================
-
 -- ============================================================================
 -- OPTIONAL CUSTOM: Character Upgrade NPC - Level 58
 -- CMaNGOS TBC 2.4.3 + Eluna
@@ -353,7 +350,6 @@ VALUES
 -- ============================================================================
 -- SOURCE: Custom/SQL/world/install/playertreff.sql
 -- ============================================================================
-
 -- CMaNGOS TBC 2.4.3 - Playertreff
 -- Builds on 9001_npc_buffer.sql.
 -- NPCs are intentionally NOT spawned automatically.
@@ -668,7 +664,7 @@ INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedC
 (90020,0,3358,0,0,0),(90020,0,3818,0,0,0),(90020,0,3820,0,0,0),(90020,0,3819,0,0,0),
 (90020,0,3821,0,0,0),(90020,0,3824,0,0,0),(90020,0,8831,0,0,0),(90020,0,8836,0,0,0),
 (90020,0,8838,0,0,0),(90020,0,13463,0,0,0),(90020,0,13464,0,0,0),(90020,0,13465,0,0,0),
-(90020,0,13466,0,0,0),(90020,0,13467,0,0,0),(90020,0,13468,0,0,0),(90020,0,13463,0,0,0),
+(90020,0,13466,0,0,0),(90020,0,13467,0,0,0),(90020,0,13468,0,0,0),
 (90020,0,3371,0,0,0),(90020,0,8925,0,0,0);
 
 -- Blacksmithing: TBC ores/bars + classic progression materials
@@ -679,8 +675,7 @@ INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedC
 (90021,0,23446,0,0,0),(90021,0,2840,0,0,0),(90021,0,2841,0,0,0),(90021,0,2842,0,0,0),
 (90021,0,3575,0,0,0),(90021,0,3576,0,0,0),(90021,0,3859,0,0,0),(90021,0,3860,0,0,0),
 (90021,0,6037,0,0,0),(90021,0,3864,0,0,0),(90021,0,12359,0,0,0),(90021,0,12360,0,0,0),
-(90021,0,12361,0,0,0),(90021,0,23445,0,0,0),(90021,0,23446,0,0,0),(90021,0,3466,0,0,0),
-(90021,0,2880,0,0,0),(90021,0,3466,0,0,0);
+(90021,0,12361,0,0,0),(90021,0,3466,0,0,0),(90021,0,2880,0,0,0);
 
 -- Enchanting
 INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`) VALUES
@@ -740,7 +735,7 @@ INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedC
 INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`) VALUES
 (90031,0,6256,0,0,0),(90031,0,6529,0,0,0),(90031,0,6530,0,0,0),(90031,0,6532,0,0,0),
 (90031,0,6533,0,0,0),(90031,0,6538,0,0,0),(90031,0,6539,0,0,0),(90031,0,6365,0,0,0),
-(90031,0,6366,0,0,0),(90031,0,6367,0,0,0),(90031,0,6529,0,0,0);
+(90031,0,6366,0,0,0),(90031,0,6367,0,0,0);
 
 -- First Aid
 INSERT INTO `npc_vendor` (`entry`,`slot`,`item`,`maxcount`,`incrtime`,`ExtendedCost`) VALUES
