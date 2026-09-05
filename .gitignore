@@ -27,6 +27,10 @@
 *.sass-cache
 /dev/*.sql
 /dev/*/
+!/dev/world/
+!/dev/world/9000_custom_world.sql
+!/dev/characters/
+!/dev/characters/9000_custom_characters.sql
 
 # OS or Editor folders
 .DS_Store

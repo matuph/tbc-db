@@ -1,0 +1,2 @@
+/dev/*.sh text eol=lf
+/dev/**/*.sql text eol=lf

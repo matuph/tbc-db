@@ -1456,8 +1456,24 @@ function apply_dev_content
   # processing individual folder in dev folder
   for UPDATEFILE in ${ADDITIONAL_PATH}dev/*/*.sql; do
     if [ -e "$UPDATEFILE" ]; then
+      # Character updates are handled separately below. All other folders keep
+      # the historical behaviour and target the world database.
+      if [ "$(basename "$(dirname "$UPDATEFILE")")" = "characters" ]; then
+        continue
+      fi
       local fName=$(basename "$UPDATEFILE")
       if ! execute_sql_file "$WORLD_DB_NAME" "$UPDATEFILE" "  - Applying $fName"; then
+        false
+        return
+      fi
+    fi
+  done
+
+  # Apply explicitly separated character database development updates.
+  for UPDATEFILE in ${ADDITIONAL_PATH}dev/characters/*.sql; do
+    if [ -e "$UPDATEFILE" ]; then
+      local fName=$(basename "$UPDATEFILE")
+      if ! execute_sql_file "$CHAR_DB_NAME" "$UPDATEFILE" "  - Applying characters/$fName"; then
         false
         return
       fi
