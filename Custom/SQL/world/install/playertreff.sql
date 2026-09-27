@@ -474,3 +474,84 @@ INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue
 INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel`) SELECT 90060,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel` FROM `npc_trainer` WHERE `entry`=8306;
 INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel`) SELECT 90061,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel` FROM `npc_trainer` WHERE `entry`=3607;
 INSERT INTO `npc_trainer` (`entry`,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel`) SELECT 90062,`spell`,`spellcost`,`reqskill`,`reqskillvalue`,`reqlevel` FROM `npc_trainer` WHERE `entry`=2326;
+
+-- Fixed Playertreff appearances: all ten playable TBC races.
+-- Display IDs verified against the Core race-model mapping in item_scripts.cpp.
+UPDATE `creature_template`
+SET `DisplayId1` = CASE `Entry`
+  WHEN 90000 THEN 49 -- Mensch
+  WHEN 90001 THEN 51 -- Ork
+  WHEN 90010 THEN 53 -- Zwerg
+  WHEN 90011 THEN 57 -- Untoter
+  WHEN 90012 THEN 55 -- Nachtelf
+  WHEN 90013 THEN 59 -- Taure
+  WHEN 90014 THEN 1563 -- Gnom
+  WHEN 90015 THEN 1478 -- Troll
+  WHEN 90016 THEN 16125 -- Draenei
+  WHEN 90017 THEN 15476 -- Blutelf
+  WHEN 90018 THEN 49 -- Mensch
+  WHEN 90019 THEN 51 -- Ork
+  WHEN 90020 THEN 53 -- Zwerg
+  WHEN 90021 THEN 57 -- Untoter
+  WHEN 90022 THEN 55 -- Nachtelf
+  WHEN 90023 THEN 59 -- Taure
+  WHEN 90024 THEN 1563 -- Gnom
+  WHEN 90025 THEN 1478 -- Troll
+  WHEN 90026 THEN 16125 -- Draenei
+  WHEN 90027 THEN 15476 -- Blutelf
+  WHEN 90028 THEN 49 -- Mensch
+  WHEN 90029 THEN 51 -- Ork
+  WHEN 90030 THEN 53 -- Zwerg
+  WHEN 90031 THEN 57 -- Untoter
+  WHEN 90032 THEN 55 -- Nachtelf
+  WHEN 90033 THEN 59 -- Taure
+  WHEN 90034 THEN 1563 -- Gnom
+  WHEN 90040 THEN 51 -- Ork
+  WHEN 90041 THEN 15476 -- Blutelf
+  WHEN 90042 THEN 53 -- Zwerg
+  WHEN 90043 THEN 57 -- Untoter
+  WHEN 90044 THEN 49 -- Mensch
+  WHEN 90045 THEN 16125 -- Draenei
+  WHEN 90046 THEN 1563 -- Gnom
+  WHEN 90047 THEN 15476 -- Blutelf
+  WHEN 90048 THEN 55 -- Nachtelf
+  WHEN 90050 THEN 1563 -- Gnom
+  WHEN 90051 THEN 1478 -- Troll
+  WHEN 90052 THEN 16125 -- Draenei
+  WHEN 90053 THEN 15476 -- Blutelf
+  WHEN 90054 THEN 49 -- Mensch
+  WHEN 90055 THEN 51 -- Ork
+  WHEN 90056 THEN 53 -- Zwerg
+  WHEN 90057 THEN 57 -- Untoter
+  WHEN 90058 THEN 55 -- Nachtelf
+  WHEN 90059 THEN 59 -- Taure
+  WHEN 90060 THEN 1563 -- Gnom
+  WHEN 90061 THEN 1478 -- Troll
+  WHEN 90062 THEN 16125 -- Draenei
+  WHEN 90063 THEN 15476 -- Blutelf
+  WHEN 90064 THEN 49 -- Mensch
+  WHEN 90065 THEN 51 -- Ork
+  WHEN 90066 THEN 53 -- Zwerg
+  WHEN 90067 THEN 57 -- Untoter
+  WHEN 90068 THEN 55 -- Nachtelf
+  WHEN 90069 THEN 59 -- Taure
+  WHEN 90070 THEN 1563 -- Gnom
+  WHEN 90071 THEN 1478 -- Troll
+  WHEN 90072 THEN 16125 -- Draenei
+  WHEN 90073 THEN 15476 -- Blutelf
+  WHEN 90074 THEN 49 -- Mensch
+  WHEN 90075 THEN 51 -- Ork
+  WHEN 90076 THEN 53 -- Zwerg
+  WHEN 90077 THEN 57 -- Untoter
+  WHEN 90078 THEN 55 -- Nachtelf
+  WHEN 90079 THEN 59 -- Taure
+  WHEN 90080 THEN 1563 -- Gnom
+  WHEN 90081 THEN 1478 -- Troll
+  WHEN 90082 THEN 16125 -- Draenei
+  WHEN 90083 THEN 15476 -- Blutelf
+  ELSE `DisplayId1` END,
+  `DisplayIdProbability1` = 100,
+  `DisplayId2` = 0, `DisplayIdProbability2` = 0,
+  `DisplayId3` = 0, `DisplayIdProbability3` = 0,
+  `DisplayId4` = 0, `DisplayIdProbability4` = 0
+WHERE `Entry` IN (90000,90001,90010,90011,90012,90013,90014,90015,90016,90017,90018,90019,90020,90021,90022,90023,90024,90025,90026,90027,90028,90029,90030,90031,90032,90033,90034,90040,90041,90042,90043,90044,90045,90046,90047,90048,90050,90051,90052,90053,90054,90055,90056,90057,90058,90059,90060,90061,90062,90063,90064,90065,90066,90067,90068,90069,90070,90071,90072,90073,90074,90075,90076,90077,90078,90079,90080,90081,90082,90083);
